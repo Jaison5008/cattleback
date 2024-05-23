@@ -34,13 +34,16 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Authentication failed' });
     }
     const token = jwt.sign({ email: user.email, userId: user._id,role:user.role }, secret_key, { expiresIn: '1h' });
-    res.status(200).json({ token, expiresIn: 3600,role:user.role });
+    res.status(200).json({ token, expiresIn: 3600,role:user.role,userId:user._id });
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
   }
 }); 
  
-
+router.post('/logout', (req, res) => {
+  
+  res.send('Logout successful');
+});
 
 router.get('/user', verifyTokenuser, (req, res) => {
   res.json({ message: 'Welcome to the user page' });
